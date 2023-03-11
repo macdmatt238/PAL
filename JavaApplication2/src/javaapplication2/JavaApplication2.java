@@ -20,7 +20,7 @@ public class JavaApplication2 {
 			System.out.print("");
 		}
 		
-		System.out.println(getpath.GetFile());	//prints file path to terminal. (feel free to delete)
+		JsonFileReader JFR = new JsonFileReader(getpath.GetFile());
 		
 	}
     }
