@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
+import java.util.ArrayList;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 /*
@@ -19,10 +20,13 @@ import org.json.simple.parser.JSONParser;
 public class JsonFileReader {
 
     private String name;
-    private String type;
-    private String path;
-    private String repositoryid;
-    private String entryid;
+    private ArrayList<String> INpath = new ArrayList<>();
+    private ArrayList<String> repositoryid = new ArrayList<>();
+    private ArrayList<String> entryid = new ArrayList<>();
+    private ArrayList<String> PEType = new ArrayList<>();
+    private ArrayList<String> INType = new ArrayList<>();
+    private ArrayList<String> ParName = new ArrayList<>();
+    private ArrayList<String> ParValue = new ArrayList<>();
     
    JsonFileReader(File file){
        
@@ -34,18 +38,14 @@ public class JsonFileReader {
            Object obj = Jparser.parse(new FileReader(file));
            JSONObject jobj = (JSONObject) obj;
            this.name = (String) jobj.get("name");
-           this.type = (String) jobj.get("type");
            
-           if(type.equals("local") == true){
-               this.repositoryid = "null";
-               this.entryid = "null";
-               this.path = (String) jobj.get("path");
-           }else{
-               this.path = "null";
-               this.repositoryid = (String) jobj.get("repositoryid");
-               this.entryid = (String) jobj.get("entryid");
-             
-           }
+           
+           JSONArray processingElements = (JSONArray) jobj.get("processing_elements");
+           
+           processingElements.forEach(emp -> parseprocessingElements((JSONObject)emp));
+           
+           
+           
            
            
        }
@@ -53,9 +53,9 @@ public class JsonFileReader {
        catch(IOException | org.json.simple.parser.ParseException e){}
    }
    
-   public String GetPath(){
+   public Object[] GetPath(){
        
-        return this.path;
+        return INpath.toArray();
        
    }
    
@@ -65,22 +65,63 @@ public class JsonFileReader {
        
    }
    
-   public String GetType(){
+   public Object[] GetPEType(){
        
-        return this.type;
-       
-   }
-   
-   public String GetRepositoryId(){
-       
-        return this.repositoryid;
+        return PEType.toArray();
        
    }
    
-   public String GetEntryId(){
+   public Object[] GetINType(){
        
-        return this.entryid;
+        return INType.toArray();
        
    }
    
+   public Object[] GetRepositoryId(){
+       
+        return repositoryid.toArray();
+       
+   }
+   
+   public Object[] GetEntryId(){
+       
+        return entryid.toArray();
+       
+   }
+   
+   public Object[] GetParName(){
+       
+        return ParName.toArray();
+       
+   }
+   
+   public Object[] GetParValue(){
+       
+        return ParValue.toArray();
+       
+   }
+   
+   private void parseprocessingElements(JSONObject emp){
+       
+       PEType.add((String) emp.get("type"));
+       
+       JSONObject jINobj = (JSONObject) emp.get("input_entries");
+       
+      INType.add((String) jINobj.get("type"));
+       if(INType.get(0).equals("local") == true){
+               repositoryid.add("null");
+               entryid.add("null");
+               INpath.add((String) jINobj.get("path"));
+           }else{
+               INpath.add("null");
+               repositoryid.add((String) jINobj.get("repositoryid"));
+               entryid.add((String) jINobj.get("entryid"));
+             
+           }
+       
+       JSONObject jPARobj = (JSONObject) emp.get("parameters");
+       
+       ParName.add((String) jPARobj.get("name"));
+       ParValue.add((String) jPARobj.get("value"));
+   }
 }
