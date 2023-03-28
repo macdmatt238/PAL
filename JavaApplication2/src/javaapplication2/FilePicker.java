@@ -3,15 +3,17 @@ package javaapplication2;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 /*
@@ -27,37 +29,51 @@ public class FilePicker extends JFrame implements ActionListener{
     
      private static final long serialVersionUID = 1L;
 	private File file;
-	private JButton SelectButton;
-	private int gotfile = 1;	//gotfile is set to 1 for false and 0 to true to save space
+       private int gotfile = 1;	//gotfile is set to 1 for false and 0 to true to save space
+        JMenuBar menuBar;
+        JMenu File;
+        JMenu download;
+        JMenuItem Open;
+        JLabel label;
 	FilePicker(){
 		
-		ImageIcon icon = new ImageIcon("LazerficheIcon.jpg");
-		Color color = new Color(255, 128, 0);
-		
+		ImageIcon icon = new ImageIcon("src\\LaseficheIcon.jpg");
+		ImageIcon BackIcon = new ImageIcon("src\\BackGround.jpg");
+                
+                menuBar = new JMenuBar();
+                File = new JMenu("Open file");
+                download = new JMenu("Download");
+                Open =new JMenuItem("Open");
+                label = new JLabel();
+                
+                menuBar.add(File);
+                menuBar.add(download);
+                File.add(Open);
+                Open.addActionListener(this);
+        
+                
+                label.setIcon(BackIcon);
+                label.setBounds(0, 0, 1920, 1080);
+                
+                
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Lazerfische file picker");
 		this.setIconImage(icon.getImage());
+                this.setSize(new Dimension(500, 500));
 		this.setLayout(null);
-		this.setSize(new Dimension(500, 500));
-		this.setResizable(false);
+                this.add(label);
+		this.setJMenuBar(menuBar);
+                
 		
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(500, 500));
+		panel.setPreferredSize(new Dimension(1920, 1080));
 		panel.setBackground(Color.WHITE);					//set background colour
-		panel.setLayout(null);
-		panel.setSize(new Dimension(500, 500));
+                panel.setSize(new Dimension(1920, 1080));
+		panel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		
 		
-		SelectButton = new JButton("Select File");	//set button text
-		SelectButton.setBounds(140,190,200,70);
-		SelectButton.addActionListener(this);
-		SelectButton.setBackground(color);
-		SelectButton.setFocusable(false);
-		SelectButton.setForeground(Color.WHITE);			//set button colour
-		SelectButton.setFont(new Font("Comic Sans", Font.BOLD, 25));
-		SelectButton.setBorder(BorderFactory.createEtchedBorder());
-		
-		panel.add(SelectButton);
+               
+                
 		this.add(panel);
 		
 		this.setVisible(true);
@@ -80,7 +96,7 @@ public class FilePicker extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {	
 
-		if(e.getSource() == SelectButton) {			//when button is pressed
+		if(e.getSource() == Open) {			//when button is pressed
 			
 			JFileChooser FChoose = new JFileChooser();	//makes a JFile Chooser
 			int ans = FChoose.showOpenDialog(null);		//saves what button the user presses: cancel, open, exit
@@ -91,7 +107,13 @@ public class FilePicker extends JFrame implements ActionListener{
 				this.file = file;	//save the path to the file variable
 				this.gotfile = 0;	//set the gotfile variable to true
 			}
-		}
-		
+                }
+                if(e.getSource() == download) {
+                            //when button is pressed
+                }
+			
+                        
+               
 	}
+		
 }
