@@ -3,7 +3,6 @@ package com.mycompany.aquaticlazer;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -41,8 +39,8 @@ public class GUI extends JFrame implements ActionListener{
 	GUI(){
 		
             
-		ImageIcon icon = new ImageIcon("src\\LaseficheIcon.jpg");
-		ImageIcon BackIcon = new ImageIcon("src\\BackGround.jpg");
+		ImageIcon icon = new ImageIcon("src\\main\\java\\LaseficheIcon.jpg");
+		ImageIcon BackIcon = new ImageIcon("src\\main\\java\\BackGround.jpg");
                 
                 menuBar = new JMenuBar();
                 File = new JMenu("Open file");
@@ -129,19 +127,10 @@ public class GUI extends JFrame implements ActionListener{
             
             String holder = text;
             
-            if(firstPrint == 0){
-            
-                text = input.replace(holder, input);
+            text = input.replace(holder, input);
                 
             firstPrint = 1;
-            }
-            else{
             
-            
-                
-            text = holder.concat(input);
-            
-            }
             System.out.println(text);
             textLab[text_count].setText(text);
             text_count++;
