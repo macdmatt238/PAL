@@ -63,7 +63,7 @@ public class GUI extends JFrame implements ActionListener{
                 textLab[i] = new JLabel("");
                 textLab[i].setBounds(30, -500+25*i, 1920, 1080);
                 textLab[i].setFont(new Font("MV Boil",Font.PLAIN,20));
-                textLab[i].setForeground(Color.BLACK);
+                textLab[i].setForeground(Color.WHITE);
                 label.add(textLab[i]);
                 }
                 textLab[0].setText(text);
