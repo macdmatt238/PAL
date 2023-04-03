@@ -4,6 +4,7 @@ package javaapplication2;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -25,18 +26,21 @@ import javax.swing.JPanel;
  *
  * @author macdm
  */
-public class FilePicker extends JFrame implements ActionListener{
+public class GUI extends JFrame implements ActionListener{
     
      private static final long serialVersionUID = 1L;
 	private File file;
-       private int gotfile = 1;	//gotfile is set to 1 for false and 0 to true to save space
-        JMenuBar menuBar;
-        JMenu File;
-        JMenu download;
-        JMenuItem Open;
-        JLabel label;
-	FilePicker(){
+       private int gotfile = 1, firstPrint = 0, text_count = 0;	//gotfile is set to 1 for false and 0 to true to save space
+       private final JMenuBar menuBar;
+       private final JMenu File;
+       private final JMenu download;
+       private final JMenuItem Open;
+       private final JLabel label;
+       private final JLabel[] textLab = new JLabel[33];
+       private String text = "Please open a file";
+	GUI(){
 		
+            
 		ImageIcon icon = new ImageIcon("src\\LaseficheIcon.jpg");
 		ImageIcon BackIcon = new ImageIcon("src\\BackGround.jpg");
                 
@@ -45,6 +49,7 @@ public class FilePicker extends JFrame implements ActionListener{
                 download = new JMenu("Download");
                 Open =new JMenuItem("Open");
                 label = new JLabel();
+                
                 
                 menuBar.add(File);
                 menuBar.add(download);
@@ -55,6 +60,14 @@ public class FilePicker extends JFrame implements ActionListener{
                 label.setIcon(BackIcon);
                 label.setBounds(0, 0, 1920, 1080);
                 
+                for(int i = 0; i < 33; i++){
+                textLab[i] = new JLabel("");
+                textLab[i].setBounds(30, -500+25*i, 1920, 1080);
+                textLab[i].setFont(new Font("MV Boil",Font.PLAIN,20));
+                textLab[i].setForeground(Color.WHITE);
+                label.add(textLab[i]);
+                }
+                textLab[0].setText(text);
                 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Lazerfische file picker");
@@ -62,19 +75,14 @@ public class FilePicker extends JFrame implements ActionListener{
                 this.setSize(new Dimension(500, 500));
 		this.setLayout(null);
                 this.add(label);
+                
 		this.setJMenuBar(menuBar);
                 
-		
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(1920, 1080));
-		panel.setBackground(Color.WHITE);					//set background colour
-                panel.setSize(new Dimension(1920, 1080));
-		panel.setLayout(new FlowLayout(FlowLayout.LEADING));
+                
+               
 		
 		
                
-                
-		this.add(panel);
 		
 		this.setVisible(true);
 		
@@ -116,4 +124,46 @@ public class FilePicker extends JFrame implements ActionListener{
                
 	}
 		
+        void GUIPrintln(String input){
+            
+            String holder = text;
+            
+            if(firstPrint == 0){
+            
+                text = input.replace(holder, input);
+                
+            firstPrint = 1;
+            }
+            else{
+            
+            
+                
+            text = holder.concat(input);
+            
+            }
+            System.out.println(text);
+            textLab[text_count].setText(text);
+            text_count++;
+        }
+        
+        void GUIPrint(String input){
+            
+            String holder = text;
+            
+            if(firstPrint == 0){
+            
+                text = input.replace(holder, input);
+                
+            firstPrint = 1;
+            }
+            else{
+            
+            
+                
+            text = holder.concat(input);
+            
+            }
+            System.out.println(text);
+            textLab[text_count].setText(text);
+        }
 }
