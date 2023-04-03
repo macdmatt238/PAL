@@ -4,8 +4,6 @@
  */
 package javaapplication2;
 
-import java.util.Arrays;
-
 /**
  *
  * @author macdm
@@ -16,23 +14,23 @@ public class JavaApplication2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        	FilePicker getpath = new FilePicker();	//runs get file path class
+        	GUI GUI = new GUI();	//runs get file path class
 		
-		while(getpath.IfFileGot() == 1) {	//stops the program till a file is selected
+		while(GUI.IfFileGot() == 1) {	//stops the program till a file is selected
 			System.out.print("");
 		}
 		
                 
                 
-		JsonFileReader JFR = new JsonFileReader(getpath.GetFile()); //creates a JsonFileReader class
+		JsonFileReader JFR = new JsonFileReader(GUI.GetFile()); //creates a JsonFileReader class
                 
                 System.out.println("Scenario name: " + JFR.GetName());      //start of an example on how to find the length and varibles of the json file arrays
-                System.out.println("Prcessing elements are: ");
+                System.out.println("Processing elements are: ");
                 
                 for(int i = 0; i < JFR.GetPEType().size(); i++){
                     
                     
-                    System.out.println("\nPrcessing element type: " + JFR.GetPEType().get(i));
+                    System.out.println("\nProcessing element type: " + JFR.GetPEType().get(i));
                     System.out.println("Imput entries:");
                     
                     for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
@@ -59,6 +57,9 @@ public class JavaApplication2 {
                         }
                 }
               
+                GUI.GUIPrintln("Scenario name: " + JFR.GetName());
+                GUI.GUIPrint("Processing elements are: ");
+                GUI.GUIPrint("Processing element type: " + JFR.GetPEType().get(0));
 	}
     }
     
