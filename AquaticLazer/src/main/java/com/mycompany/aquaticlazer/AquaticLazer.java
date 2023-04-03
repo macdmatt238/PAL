@@ -35,42 +35,42 @@ public class AquaticLazer {
                 
 		JsonFileReader JFR = new JsonFileReader(GUI.GetFile()); //creates a JsonFileReader class
                 
-//                System.out.println("Scenario name: " + JFR.GetName());      //start of an example on how to find the length and varibles of the json file arrays
-//                System.out.println("Processing elements are: ");
-//                
-//                for(int i = 0; i < JFR.GetPEType().size(); i++){
-//                    
-//                    
-//                    System.out.println("\nProcessing element type: " + JFR.GetPEType().get(i));
-//                    System.out.println("Imput entries:");
-//                    
-//                    for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
-//                         
-//                        System.out.println("file type: " + JFR.GetINType().get(i).get(j));  //use two .get methouds to select varibles in 2d arraylists
-//                        
-//                        
-//                        if(JFR.GetINType().get(i).get(j).equals("local") == true){
-//                            
-//                            System.out.println("file path: " + JFR.GetPath().get(i));
-//                        }else{
-//                            
-//                            System.out.println("file EntryId: " + JFR.GetEntryId().get(i));
-//                            System.out.println("file RepositoryId: " + JFR.GetRepositoryId().get(i));
-//                        }
-//                        
-//                        
-//                    }
-//                    System.out.println("parameters:");
-//                    for(int j = 0; j < JFR.GetParName().get(i).size(); j++){
-//                            
-//                            System.out.println("parameters name: " + JFR.GetParName().get(i).get(j));
-//                            System.out.println("parameters value: " + JFR.GetParValue().get(i).get(j));
-//                        }
-//                }
-//              
-//                GUI.GUIPrintln("Scenario name: " + JFR.GetName());                    this is how you print to the gui
-//                GUI.GUIPrint("Processing elements are: ");
-//                GUI.GUIPrint("Processing element type: " + JFR.GetPEType().get(0));
+                System.out.println("Scenario name: " + JFR.GetName());      //start of an example on how to find the length and varibles of the json file arrays
+                System.out.println("Processing elements are: ");
+                
+                for(int i = 0; i < JFR.GetPEType().size(); i++){
+                    
+                    
+                    System.out.println("\nProcessing element type: " + JFR.GetPEType().get(i));
+                    System.out.println("Imput entries:");
+                    
+                    for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
+                         
+                        System.out.println("file type: " + JFR.GetINType().get(i).get(j));  //use two .get methouds to select varibles in 2d arraylists
+                        
+                        
+                        if(JFR.GetINType().get(i).get(j).equals("local") == true){
+                            
+                            System.out.println("file path: " + JFR.GetPath().get(i));
+                        }else{
+                            
+                            System.out.println("file EntryId: " + JFR.GetEntryId().get(i));
+                            System.out.println("file RepositoryId: " + JFR.GetRepositoryId().get(i));
+                        }
+                        
+                        
+                    }
+                    System.out.println("parameters:");
+                    for(int j = 0; j < JFR.GetParName().get(i).size(); j++){
+                            
+                            System.out.println("parameters name: " + JFR.GetParName().get(i).get(j));
+                            System.out.println("parameters value: " + JFR.GetParValue().get(i).get(j));
+                        }
+                }
+              
+                GUI.GUIPrintln("Scenario name: " + JFR.GetName());                   // this is how you print to the gui
+                GUI.GUIPrint("Processing elements are: ");
+                GUI.GUIPrint("Processing element type: " + JFR.GetPEType().get(0));
 
 int entryid;
         Scanner input = new Scanner(System.in); //scanner to input number
