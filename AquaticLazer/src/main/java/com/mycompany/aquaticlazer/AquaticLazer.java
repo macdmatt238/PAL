@@ -55,7 +55,7 @@ public class AquaticLazer {
                         
                         if(JFR.GetINType().get(i).get(j).equals("local") == true){
                             
-                            LocalEntry entry = new LocalEntry(JFR.GetName(), JFR.GetPath().get(i).get(j), false, 0);
+                          //  LocalEntry entry = new LocalEntry(JFR.GetName(), JFR.GetPath().get(i).get(j), false, 0);
                             
                             GUI.GUIPrintln("file path: " + JFR.GetPath().get(i).get(j));
                         }else{
