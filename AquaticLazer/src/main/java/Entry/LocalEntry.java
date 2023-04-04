@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  * @author pickn
  */
-public class LocalEntry extends Entry {
+public class LocalEntry extends Entries {
     
     public LocalEntry(String name, String path){
         super(name);
