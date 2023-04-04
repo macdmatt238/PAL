@@ -91,7 +91,8 @@ public class AquaticLazer {
                         }
                     
                     Entry[] entry = new Entry[JFR.GetINType().get(i).size()];
-                    //RemoteEntry repoEntry[] = new RemoteEntry[repoCount];
+                    RemoteEntry[] repoEntry = new RemoteEntry[repoCount];
+                    LocalEntry[] localEntry = new LocalEntry[localCount];
                     
                     for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
                         
@@ -107,7 +108,7 @@ public class AquaticLazer {
                                  
                             }
                         
-                          entry[j] = new LocalEntry(JFR.GetName(), holder);
+                          localEntry[j] = new LocalEntry(JFR.GetName(), holder);
                         
                         }else{
                             
@@ -127,10 +128,14 @@ public class AquaticLazer {
                                  
                             }
                             
-                            entry[j] = new RemoteEntry(JFR.GetName(), holder, holder2);
+                            repoEntry[j] = new RemoteEntry(JFR.GetName(), holder, holder2);
                             
                         }
                     }
+                    
+                    System.arraycopy(repoEntry, 0, entry, 0, repoEntry.length);
+                    System.arraycopy(localEntry, 0, entry, repoEntry.length, entry.length);
+                    
                     //TO DO call filters with a switch
                     
                     Filter filter = new Filter();
