@@ -16,11 +16,9 @@ import java.util.function.Consumer;
  */
 public class Processing {
     
-    File entre[];
+    
     int lines_num;
-    public Processing(File entre[]){
-        this.entre = entre;
-    }
+    
    void Split(String Entry[],int lines) throws IOException{
        int count = 1;
        int files = lines_num/lines;
