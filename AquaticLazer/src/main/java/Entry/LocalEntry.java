@@ -38,5 +38,12 @@ public class LocalEntry extends Entries {
         }
     }
 
+    @Override
+    public void print() {
+        System.out.println("Name: " + name);
+        System.out.println("Path: " + path); 
+        System.out.println("Size: " + length + "bytes");
+        
+    }
     
 }

@@ -34,7 +34,7 @@ public class GUI extends JFrame implements ActionListener{
        private final JMenu download;
        private final JMenuItem Open;
        private final JLabel label;
-       private final JLabel[] textLab = new JLabel[33];
+       private final JLabel[] textLab = new JLabel[66];
        private String text = "Please open a file";
 	GUI(){
 		
@@ -59,9 +59,12 @@ public class GUI extends JFrame implements ActionListener{
                 label.setBounds(0, 0, 1920, 1080);
                
                 
-                for(int i = 0; i < 33; i++){
+                for(int i = 0; i < 66; i++){
                 textLab[i] = new JLabel("");
+                if(i <= 33){
                 textLab[i].setBounds(30, -500+25*i, 1920, 1080);
+                }else
+                {textLab[i].setBounds(30, -1325+25*i, 2920, 1080);}
                 textLab[i].setFont(new Font("MV Boil",Font.PLAIN,20));
                 textLab[i].setForeground(Color.WHITE);
                 label.add(textLab[i]);

@@ -52,6 +52,8 @@ public class Entries {
         }
         
     }
+    
+    public void print(){};
 
 
 
