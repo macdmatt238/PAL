@@ -3,23 +3,9 @@
  */
 
 package com.mycompany.aquaticlazer;
+import Entry.Entries;
 import Entry.LocalEntry;
 import Entry.RemoteEntry;
-import com.laserfiche.api.client.model.AccessKey;
-import com.laserfiche.repository.api.RepositoryApiClient;
-import com.laserfiche.repository.api.RepositoryApiClientImpl;
-import com.laserfiche.repository.api.clients.impl.model.Entry;
-import com.laserfiche.repository.api.clients.impl.model.ODataValueContextOfIListOfEntry;
-import com.laserfiche.repository.api.clients.EntriesClient;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-
-import java.io.InputStream;
-import java.util.Scanner;
-import java.io.File;
-import java.util.function.Consumer;
 /**
  *
  * @author macdm
@@ -90,9 +76,7 @@ public class AquaticLazer {
                             value[j] = JFR.GetINType().get(i).get(j).replace(holder, JFR.GetINType().get(i).get(j));
                         }
                     
-                    Entry[] entry = new Entry[JFR.GetINType().get(i).size()];
-                    RemoteEntry[] repoEntry = new RemoteEntry[repoCount];
-                    LocalEntry[] localEntry = new LocalEntry[localCount];
+                    Entries[] entry = new Entries[JFR.GetINType().get(i).size()];
                     
                     for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
                         
@@ -108,7 +92,7 @@ public class AquaticLazer {
                                  
                             }
                         
-                          localEntry[j] = new LocalEntry(JFR.GetName(), holder);
+                          entry[j] = new LocalEntry(JFR.GetName(), holder);
                         
                         }else{
                             
@@ -128,16 +112,12 @@ public class AquaticLazer {
                                  
                             }
                             
-                            repoEntry[j] = new RemoteEntry(JFR.GetName(), holder, holder2);
+                            entry[j] = new RemoteEntry(JFR.GetName(), holder, holder2);
                             
                         }
                     }
                     
-                    System.arraycopy(repoEntry, 0, entry, 0, repoEntry.length);
-                    System.arraycopy(localEntry, 0, entry, repoEntry.length, entry.length);
-                    
-                    //TO DO call filters with a switch
-                    
+                   
                     Filter filter = new Filter();
                     
                     switch(JFR.GetPEType().get(i)){
@@ -180,11 +160,6 @@ public class AquaticLazer {
                                 
                             break;
                     }
-                    
-                
-          
-                
-                
         }                
     }
 }

@@ -4,7 +4,7 @@
  */
 package com.mycompany.aquaticlazer;
 
-import Entry.Entry;
+import Entry.Entries;
 
 /**
  *
@@ -12,7 +12,7 @@ import Entry.Entry;
  */
 public class Filter {
     
-     public Entry[] NameFilter(Entry[] ListofEntries, String Key) {
+     public Entries[] NameFilter(Entries[] ListofEntries, String Key) {
 
         int count = 0;
         for (int x = 0; x < ListofEntries.length; x++) {
@@ -20,7 +20,7 @@ public class Filter {
                 count++; 
             }
         }
-        Entry[] ReturnList = new Entry[count];
+        Entries[] ReturnList = new Entries[count];
         int z = 0;
         for (int x = 0; x < ListofEntries.length; x++) {
             if (ListofEntries[x].name.contains(Key)) {  //Places all entries into return array
@@ -31,14 +31,14 @@ public class Filter {
         return ReturnList;
     }
 
-    public Entry[] LengthFilter(Entry[] ListofEntries, Long Length, String Operator) {
+    public Entries[] LengthFilter(Entries[] ListofEntries, Long Length, String Operator) {
         int count = 0;
         for (int x = 0; x < ListofEntries.length; x++) {  //counts the number of entries that are single files and not directories
             if (!ListofEntries[x].isDirectory) {
                 count++;
             }
         }
-        Entry[] FileList = new Entry[count]; // creates FileList, an array filled with all the entries that are just files
+        Entries[] FileList = new Entries[count]; // creates FileList, an array filled with all the entries that are just files
         int z = 0;
         for (int i = 0; i < ListofEntries.length; i++) {
             if (!ListofEntries[i].isDirectory) {
@@ -57,7 +57,7 @@ public class Filter {
                         EQcount++;
                     }
                 }
-                Entry[] EQFileList = new Entry[EQcount]; // creates an array to store the entries with equal length, EQFileList
+                Entries[] EQFileList = new Entries[EQcount]; // creates an array to store the entries with equal length, EQFileList
                 int a = 0;
                 for (int i = 0; i < FileList.length; i++) {
                     if (FileList[i].length == Length) { // fills EQFileList
@@ -75,7 +75,7 @@ public class Filter {
                         NEQcount++;
                     }
                 }
-                Entry[] NEQFileList = new Entry[NEQcount];
+                Entries[] NEQFileList = new Entries[NEQcount];
                 int b = 0;
                 for (int i = 0; i < FileList.length; i++) {
                     if (FileList[i].length != Length) {
@@ -93,7 +93,7 @@ public class Filter {
                         GTcount++;
                     }
                 }
-                Entry[] GTFileList = new Entry[GTcount];
+                Entries[] GTFileList = new Entries[GTcount];
                 int c = 0;
                 for (int i = 0; i < FileList.length; i++) {
                     if (FileList[i].length > Length) {
@@ -111,7 +111,7 @@ public class Filter {
                         GTEcount++;
                     }
                 }
-                Entry[] GTEFileList = new Entry[GTEcount];
+                Entries[] GTEFileList = new Entries[GTEcount];
                 int d = 0;
                 for (int i = 0; i < FileList.length; i++) {
                     if (FileList[i].length >= Length) {
@@ -128,7 +128,7 @@ public class Filter {
                         LTcount++;
                     }
                 }
-                Entry[] LTFileList = new Entry[LTcount];
+                Entries[] LTFileList = new Entries[LTcount];
                 int e = 0;
                 for (int i = 0; i < FileList.length; i++) {
                     if (FileList[i].length < Length) {
@@ -145,7 +145,7 @@ public class Filter {
                         LTEcount++;
                     }
                 }
-                Entry[] LTEFileList = new Entry[LTEcount];
+                Entries[] LTEFileList = new Entries[LTEcount];
                 int f = 0;
                 for (int i = 0; i < FileList.length; i++) {
                     if (FileList[i].length <= Length) {
@@ -162,14 +162,14 @@ public class Filter {
 
     }
 
-    public Entry[] ContentFilter(Entry[] ListofEntries, String Key) {
+    public Entries[] ContentFilter(Entries[] ListofEntries, String Key) {
         int count = 0;
         for (int x = 0; x < ListofEntries.length; x++) {  //counts the number of entries that are single files and not directories
             if (!ListofEntries[x].isDirectory) {
                 count++;
             }
         }
-        Entry[] FileList = new Entry[count]; // creates FileList, an array filled with all the entries that are just files
+        Entries[] FileList = new Entries[count]; // creates FileList, an array filled with all the entries that are just files
         int z = 0;
         for (int i = 0; i < ListofEntries.length; i++) {
             if (!ListofEntries[i].isDirectory) {
@@ -186,7 +186,7 @@ public class Filter {
                 }
             }
         }
-        Entry[] ContentArray = new Entry[contentcount];
+        Entries[] ContentArray = new Entries[contentcount];
         int q = 0;
         for (int y = 0; y < FileList.length; y++) {
             for (int k = 0; k < FileList[y].contents.length; k++) {
@@ -200,14 +200,14 @@ public class Filter {
         return ContentArray;
     }
 
-    public Entry[] CountFilter(Entry[] ListofEntries, String Key, int Min) {
+    public Entries[] CountFilter(Entries[] ListofEntries, String Key, int Min) {
         int count = 0;
         for (int x = 0; x < ListofEntries.length; x++) {  //counts the number of entries that are single files and not directories
             if (!ListofEntries[x].isDirectory) {
                 count++;
             }
         }
-        Entry[] FileList = new Entry[count]; // creates FileList, an array filled with all the entries that are just files
+        Entries[] FileList = new Entries[count]; // creates FileList, an array filled with all the entries that are just files
         int z = 0;
         for (int i = 0; i < ListofEntries.length; i++) {
             if (!ListofEntries[i].isDirectory) {
@@ -224,7 +224,7 @@ public class Filter {
                 }
             }
         }
-        Entry[] ReturnArray = new Entry[count];
+        Entries[] ReturnArray = new Entries[count];
         int c = 0;
         for (int l = 0; l < FileList.length; l++) {
             if (FileList[l].repcount >= Min) {  // if the element's repcount is >= Min, it goes into the return array
