@@ -53,7 +53,7 @@ public class AquaticLazer {
                     String[] RepositoryId = new String[JFR.GetINType().get(i).size()];
                     String[] name = new String[JFR.GetParName().get(i).size()];
                     String[] value = new String[JFR.GetParName().get(i).size()];
-                    String holder = "";
+                    String holder = "", holder2 = "";
                     for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
                          
                         //GUI.GUIPrintln("file type: " + JFR.GetINType().get(i).get(j));  //use two .get methouds to select varibles in 2d arraylists
@@ -90,32 +90,50 @@ public class AquaticLazer {
                             value[j] = JFR.GetINType().get(i).get(j).replace(holder, JFR.GetINType().get(i).get(j));
                         }
                     
-                    LocalEntry locaEntry[] = new LocalEntry[localCount];
-                    RemoteEntry repoEntry[] = new RemoteEntry[repoCount];
+                    Entry[] entry = new Entry[JFR.GetINType().get(i).size()];
+                    //RemoteEntry repoEntry[] = new RemoteEntry[repoCount];
                     
                     for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
                         
                     
                         
-                        if(JFR.GetINType().get(i).get(j).equals("local") == true){
+                        if(JFR.GetINType().get(i).get(j).equals("local") == true){      //fill out all the entrys
                             
                             holder = path[j].replace(holder, path[j]);
                             
                             while(holder.equals("")){
                                 
                             holder = path[j-1].replace(holder, path[j-1]);
-                                
+                                 
                             }
                         
-                          locaEntry[j] = new LocalEntry(JFR.GetName(), holder);
+                          entry[j] = new LocalEntry(JFR.GetName(), holder);
                         
                         }else{
                             
-                            repoEntry[j] = new RemoteEntry(JFR.GetName(), RepositoryId[j], EntryId[j]);
+                            holder = RepositoryId[j].replace(holder, RepositoryId[j]);
+                            
+                            while(holder.equals("")){
+                                
+                            holder = RepositoryId[j-1].replace(holder, RepositoryId[j-1]);
+                                 
+                            }
+                            
+                            holder2 = EntryId[j].replace(holder2, EntryId[j]);
+                            
+                            while(holder2.equals("")){
+                                
+                            holder2 = EntryId[j-1].replace(holder2, EntryId[j-1]);
+                                 
+                            }
+                            
+                            entry[j] = new RemoteEntry(JFR.GetName(), holder, holder2);
                             
                         }
-                    
+                    }
                     //TO DO call filters with a switch
+                    
+                    Filter filter = new Filter();
                     
                     switch(JFR.GetPEType().get(i)){
                         case "List":
@@ -124,131 +142,44 @@ public class AquaticLazer {
                         
                         case "LengthFilter":
                             
+                            if(name[0].equalsIgnoreCase("Length")){
+                            filter.LengthFilter(entry, Long.parseLong(value[0]), value[1]);
+                            }else{
+                                filter.LengthFilter(entry, Long.parseLong(value[1]), value[0]);
+                            }
                             break;
                         
                             case "Print":
                             
                             break;
+                            
+                            case "NameFilter":
+                            
+                                filter.NameFilter(entry, value[0]);
+                                
+                            break;
+                            
+                            case "ContentFilter":
+                            
+                                filter.ContentFilter(entry, value[0]);
+                                
+                            break;
+                            
+                            case "CountFilter":
+                            if(name[0].equalsIgnoreCase("Key")){
+                            filter.CountFilter(entry, value[0],Integer.parseInt(value[1]));
+                            }else{
+                                filter.CountFilter(entry, value[1],Integer.parseInt(value[0]));
+                            }
+                                
+                                
+                            break;
                     }
                     
-                }
+                
           
                 
                 
-        }      
-                
-                    
-                    
-                    
-int entryid;
-        Scanner input = new Scanner(System.in); //scanner to input number
-        System.out.println("start");
-        System.out.println("please enter the id you would like to download as its entry id");
-        entryid = input.nextInt();
-        download(entryid);
-    
-    
-     public static void download(int entryid) {
-        
-         if (entryid == 4 || entryid == 15 || entryid == 18 || entryid == 23) {
-            String servicePrincipalKey = "9udNhuNq85BwiQW7R_va";
-            String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOWQwYWMwYTAtZGI4NC00N2RlLWIxZWYtMjI0ZDRiYzZkY2NhIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImFBU3NaSGFMX1M4bW1qbmVCTkktd3o2c0JBWHFTQmtPWE96V2ZtSjZQbGciLAoJCSJ4IjogImFfTHNINzBoNDVOM0dTUnV4d2RTMmhWSHFyMGcxdGdMVk9wRHV6MjFIRk0iLAoJCSJ5IjogIkpNT1AzQzV1UFNMSFBEUld2TTNTVlVrbjZfNXZkUTJWZTNaaUdTc3I4LTAiLAoJCSJkIjogIlJTS21FeGQxUFBSczBNbnBIUm5QaTNFY2x5VHpCUnJJUnhvVHlGQmhVVWMiLAoJCSJpYXQiOiAxNjc3Mjk3ODY3Cgl9Cn0";
-            String repositoryId = "r-0001d410ba56";
-            AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
-
-            RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
-                    servicePrincipalKey, accessKey);
-
-            // Get information about the ROOT entry, i.e. entry with ID=1
-            Entry entry = client.getEntriesClient()
-                    .getEntry(repositoryId, entryid, null).join();
-            String path = "src\\";
-            path = path + entry.getName();
-            File f1 = new File(path);
-            boolean bool = f1.mkdir();
-            if (bool) {
-                System.out.println("Folder is created successfully");       //you can choose to remove the test but not the if structure
-            } else {
-                System.out.println("Error Found!");
-            }
-            ODataValueContextOfIListOfEntry result = client
-                    .getEntriesClient()
-                    .getEntryListing(repositoryId, entryid, true, null, null, null, null, null, "name", null, null, null).join();
-            List<Entry> entries = result.getValue();
-            for (Entry childEntry : entries) {
-                int entryIdToDownload = childEntry.getId();
-                Entry entry1 = client.getEntriesClient()
-                        .getEntry(repositoryId, entryIdToDownload, null).join();
-                final String FILE_NAME = entry1.getName() + ".txt";
-                Consumer<InputStream> consumer = inputStream -> {
-                    File exportedFile = new File(f1, FILE_NAME);
-                    try (FileOutputStream outputStream = new FileOutputStream(exportedFile)) {
-                        byte[] buffer = new byte[1024];
-                        while (true) {
-                            int length = inputStream.read(buffer);
-                            if (length == -1) {
-                                break;
-                            }
-                            outputStream.write(buffer, 0, length);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            inputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                client.getEntriesClient()
-                        .exportDocument(repositoryId, entryIdToDownload, null, consumer)
-                        .join();
-            }
-            client.close();
-            System.out.println("done");
-        } else {
-            String servicePrincipalKey = "9udNhuNq85BwiQW7R_va";
-            String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOWQwYWMwYTAtZGI4NC00N2RlLWIxZWYtMjI0ZDRiYzZkY2NhIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImFBU3NaSGFMX1M4bW1qbmVCTkktd3o2c0JBWHFTQmtPWE96V2ZtSjZQbGciLAoJCSJ4IjogImFfTHNINzBoNDVOM0dTUnV4d2RTMmhWSHFyMGcxdGdMVk9wRHV6MjFIRk0iLAoJCSJ5IjogIkpNT1AzQzV1UFNMSFBEUld2TTNTVlVrbjZfNXZkUTJWZTNaaUdTc3I4LTAiLAoJCSJkIjogIlJTS21FeGQxUFBSczBNbnBIUm5QaTNFY2x5VHpCUnJJUnhvVHlGQmhVVWMiLAoJCSJpYXQiOiAxNjc3Mjk3ODY3Cgl9Cn0";
-            String repositoryId = "r-0001d410ba56";
-            AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
-
-            RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
-                    servicePrincipalKey, accessKey);
-
-            int entryIdToDownload = entryid;
-            Entry entry1 = client.getEntriesClient()
-                    .getEntry(repositoryId, entryIdToDownload, null).join();
-            final String FILE_NAME = entry1.getName() + ".txt";
-            Consumer<InputStream> consumer = inputStream -> {
-                File exportedFile = new File(FILE_NAME);
-                try (FileOutputStream outputStream = new FileOutputStream(exportedFile)) {
-                    byte[] buffer = new byte[1024];
-                    while (true) {
-                        int length = inputStream.read(buffer);
-                        if (length == -1) {
-                            break;
-                        }
-                        outputStream.write(buffer, 0, length);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-
-            client.getEntriesClient()
-                    .exportDocument(repositoryId, entryIdToDownload, null, consumer)
-                    .join();
-
-            client.close();
-            System.out.println("done");
-        }
+        }                
     }
 }
