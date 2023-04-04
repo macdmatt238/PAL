@@ -12,10 +12,11 @@ import java.io.File;
  */
 public class RemoteEntry extends Entry{
     String repositoryID;
-    public RemoteEntry(String name, String repositoryID, boolean isDirectory) {
+    String entryID;
+    public RemoteEntry(String name, String repositoryID, String entryID) {
         super(name);
         this.repositoryID = repositoryID;
-        
+        this.entryID = entryID;
         this.path = JavierFunction(repositoryID); // this needs to be updated with javier's function
         
         
