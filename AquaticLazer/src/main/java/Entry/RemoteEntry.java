@@ -45,6 +45,15 @@ public class RemoteEntry extends Entries{
         
     }
     
+    @Override
+    public void print() {
+        System.out.println("Name: " + name);
+        System.out.println("Path: " + path); 
+        System.out.println("Size: " + length + "bytes");
+        System.out.println("EntryID: " + entryID);
+        System.out.println("RepoID: " + repositoryID);
+    }
+    
     
     private String JavierFunction(String repositoryID) {
 
