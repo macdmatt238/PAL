@@ -47,7 +47,9 @@ public class RemoteEntry extends Entry{
     
     
     private String JavierFunction(String repositoryID) {
-       String path=null;
+
+        String path=null;
+
         int entryid=-48;
         int idlength=repositoryID.length();
         for (int i = 0; i < idlength; i++) {
@@ -64,7 +66,9 @@ public class RemoteEntry extends Entry{
             RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
                     servicePrincipalKey, accessKey);
 
+
             Entry entry = client.getEntriesClient().getEntry(repositoryId, entryid, null).join();
+
             path = "C:\\Users\\javie\\Documents\\NetBeansProjects\\Final Project\\newprojecttest\\";
             path = path + entry.getName();
             File f1 = new File(path);
@@ -77,10 +81,12 @@ public class RemoteEntry extends Entry{
             ODataValueContextOfIListOfEntry result = client
                     .getEntriesClient()
                     .getEntryListing(repositoryId, entryid, true, null, null, null, null, null, "name", null, null, null).join();
+
             List<Entry> entries = result.getValue();
             for (Entry childEntry : entries) {
                 int entryIdToDownload = childEntry.getId();
                 Entry entry1 = client.getEntriesClient().getEntry(repositoryId, entryIdToDownload, null).join();
+
                 final String FILE_NAME = entry1.getName() + ".txt";
                 Consumer<InputStream> consumer = inputStream -> {
                     File exportedFile = new File(f1, FILE_NAME);
@@ -122,7 +128,9 @@ public class RemoteEntry extends Entry{
                     servicePrincipalKey, accessKey);
 
             int entryIdToDownload = entryid;
+
             Entry entry1 = client.getEntriesClient().getEntry(repositoryId, entryIdToDownload, null).join();
+
             final String FILE_NAME = entry1.getName() + ".txt";
             Consumer<InputStream> consumer = inputStream -> {
                 File exportedFile = new File(FILE_NAME);
