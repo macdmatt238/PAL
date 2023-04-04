@@ -4,6 +4,7 @@
 
 package com.mycompany.aquaticlazer;
 import Entry.LocalEntry;
+import Entry.RemoteEntry;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.repository.api.RepositoryApiClient;
 import com.laserfiche.repository.api.RepositoryApiClientImpl;
@@ -36,32 +37,45 @@ public class AquaticLazer {
                 
 		JsonFileReader JFR = new JsonFileReader(GUI.GetFile()); //creates a JsonFileReader class
                 
-                GUI.GUIPrintln("Scenario name: " + JFR.GetName());      //start of an example on how to find the length and varibles of the json file arrays
-                GUI.GUIPrintln("Processing elements are: ");
+                //GUI.GUIPrintln("Scenario name: " + JFR.GetName());      //start of an example on how to find the length and varibles of the json file arrays
+                //GUI.GUIPrintln("Processing elements are: ");
                 
                 for(int i = 0; i < JFR.GetPEType().size(); i++){
                     
                     
-                    GUI.GUIPrintln("\nProcessing element type: " + JFR.GetPEType().get(i));
-                    GUI.GUIPrintln("Imput entries:");
+                    //GUI.GUIPrintln("\nProcessing element type: " + JFR.GetPEType().get(i));
+                    //GUI.GUIPrintln("Imput entries:");
                     
-                    
-                    
+                    int localCount = 0, repoCount = 0;
+                    String[] type = new String[JFR.GetINType().get(i).size()];
+                    String[] path = new String[JFR.GetINType().get(i).size()];
+                    String[] EntryId = new String[JFR.GetINType().get(i).size()];
+                    String[] RepositoryId = new String[JFR.GetINType().get(i).size()];
+                    String[] name = new String[JFR.GetParName().get(i).size()];
+                    String[] value = new String[JFR.GetParName().get(i).size()];
+                    String holder = "";
                     for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
                          
-                        GUI.GUIPrintln("file type: " + JFR.GetINType().get(i).get(j));  //use two .get methouds to select varibles in 2d arraylists
+                        //GUI.GUIPrintln("file type: " + JFR.GetINType().get(i).get(j));  //use two .get methouds to select varibles in 2d arraylists
                         
-                        
+                        type[j] = JFR.GetINType().get(i).get(j).replace(holder, JFR.GetINType().get(i).get(j));
                         
                         if(JFR.GetINType().get(i).get(j).equals("local") == true){
                             
-                          //  LocalEntry entry = new LocalEntry(JFR.GetName(), JFR.GetPath().get(i).get(j), false, 0);
+                          localCount++;
                             
-                            GUI.GUIPrintln("file path: " + JFR.GetPath().get(i).get(j));
+                           // GUI.GUIPrintln("file path: " + JFR.GetPath().get(i).get(j));
+                            
+                            path[j] = JFR.GetPath().get(i).get(j).replace(holder, JFR.GetPath().get(i).get(j));
                         }else{
                             
-                            GUI.GUIPrintln("file EntryId: " + JFR.GetEntryId().get(i).get(j));
-                            GUI.GUIPrintln("file RepositoryId: " + JFR.GetRepositoryId().get(i).get(j));
+                            repoCount++;
+                            
+                           // GUI.GUIPrintln("file EntryId: " + JFR.GetEntryId().get(i).get(j));
+                           // GUI.GUIPrintln("file RepositoryId: " + JFR.GetRepositoryId().get(i).get(j));
+                            
+                            EntryId[j] = JFR.GetEntryId().get(i).get(j).replace(holder, JFR.GetEntryId().get(i).get(j));
+                            RepositoryId[j] = JFR.GetRepositoryId().get(i).get(j).replace(holder, JFR.GetRepositoryId().get(i).get(j));
                         }
                         
                         
@@ -69,14 +83,59 @@ public class AquaticLazer {
                     GUI.GUIPrintln("parameters:");
                     for(int j = 0; j < JFR.GetParName().get(i).size(); j++){
                             
-                            GUI.GUIPrintln("parameters name: " + JFR.GetParName().get(i).get(j));
-                            GUI.GUIPrintln("parameters value: " + JFR.GetParValue().get(i).get(j));
+                            //GUI.GUIPrintln("parameters name: " + JFR.GetParName().get(i).get(j));
+                           // GUI.GUIPrintln("parameters value: " + JFR.GetParValue().get(i).get(j));
+                            
+                            name[j] = JFR.GetINType().get(i).get(j).replace(holder, JFR.GetINType().get(i).get(j));
+                            value[j] = JFR.GetINType().get(i).get(j).replace(holder, JFR.GetINType().get(i).get(j));
                         }
+                    
+                    LocalEntry locaEntry[] = new LocalEntry[localCount];
+                    RemoteEntry repoEntry[] = new RemoteEntry[repoCount];
+                    
+                    for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
+                        
+                    
+                        
+                        if(JFR.GetINType().get(i).get(j).equals("local") == true){
+                            
+                            holder = path[j].replace(holder, path[j]);
+                            
+                            while(holder.equals("")){
+                                
+                            holder = path[j-1].replace(holder, path[j-1]);
+                                
+                            }
+                        
+                          locaEntry[j] = new LocalEntry(JFR.GetName(), holder);
+                        
+                        }else{
+                            
+                            repoEntry[j] = new RemoteEntry(JFR.GetName(), RepositoryId[j], EntryId[j]);
+                            
+                        }
+                    
+                    //TO DO call filters with a switch
+                    
+                    switch(JFR.GetPEType().get(i)){
+                        case "List":
+                            
+                            break;
+                        
+                        case "LengthFilter":
+                            
+                            break;
+                        
+                            case "Print":
+                            
+                            break;
+                    }
+                    
                 }
           
                 
                 
-                
+        }      
                 
                     
                     
@@ -87,7 +146,7 @@ int entryid;
         System.out.println("please enter the id you would like to download as its entry id");
         entryid = input.nextInt();
         download(entryid);
-    }
+    
     
      public static void download(int entryid) {
         
