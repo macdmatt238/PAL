@@ -47,7 +47,9 @@ public class RemoteEntry extends Entry{
     
     
     private String JavierFunction(String repositoryID) {
+
         String path=null;
+
         int entryid=-48;
         int idlength=repositoryID.length();
         for (int i = 0; i < idlength; i++) {
@@ -64,8 +66,9 @@ public class RemoteEntry extends Entry{
             RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
                     servicePrincipalKey, accessKey);
 
-            com.laserfiche.repository.api.clients.impl.model.Entry entry = client.getEntriesClient()
-                    .getEntry(repositoryId, entryid, null).join();
+
+            Entry entry = client.getEntriesClient().getEntry(repositoryId, entryid, null).join();
+
             path = "C:\\Users\\javie\\Documents\\NetBeansProjects\\Final Project\\newprojecttest\\";
             path = path + entry.getName();
             File f1 = new File(path);
@@ -78,11 +81,12 @@ public class RemoteEntry extends Entry{
             ODataValueContextOfIListOfEntry result = client
                     .getEntriesClient()
                     .getEntryListing(repositoryId, entryid, true, null, null, null, null, null, "name", null, null, null).join();
-            List<com.laserfiche.repository.api.clients.impl.model.Entry> entries = result.getValue();
-            for (com.laserfiche.repository.api.clients.impl.model.Entry childEntry : entries) {
+
+            List<Entry> entries = result.getValue();
+            for (Entry childEntry : entries) {
                 int entryIdToDownload = childEntry.getId();
-                com.laserfiche.repository.api.clients.impl.model.Entry entry1 = client.getEntriesClient()
-                        .getEntry(repositoryId, entryIdToDownload, null).join();
+                Entry entry1 = client.getEntriesClient().getEntry(repositoryId, entryIdToDownload, null).join();
+
                 final String FILE_NAME = entry1.getName() + ".txt";
                 Consumer<InputStream> consumer = inputStream -> {
                     File exportedFile = new File(f1, FILE_NAME);
@@ -124,8 +128,9 @@ public class RemoteEntry extends Entry{
                     servicePrincipalKey, accessKey);
 
             int entryIdToDownload = entryid;
-            com.laserfiche.repository.api.clients.impl.model.Entry entry1 = client.getEntriesClient()
-                    .getEntry(repositoryId, entryIdToDownload, null).join();
+
+            Entry entry1 = client.getEntriesClient().getEntry(repositoryId, entryIdToDownload, null).join();
+
             final String FILE_NAME = entry1.getName() + ".txt";
             Consumer<InputStream> consumer = inputStream -> {
                 File exportedFile = new File(FILE_NAME);
