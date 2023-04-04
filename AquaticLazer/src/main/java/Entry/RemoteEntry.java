@@ -4,25 +4,22 @@
  */
 package Entry;
 
-
 import java.io.File;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 
 /**
  *
  * @author pickn
  */
-public class LocalEntry extends Entry {
-    
-    public LocalEntry(String name, String path){
+public class RemoteEntry extends Entry{
+    String repositoryID;
+    String entryID;
+    public RemoteEntry(String name, String repositoryID, String entryID) {
         super(name);
-        this.path = path;
+        this.repositoryID = repositoryID;
+        this.entryID = entryID;
+        this.path = JavierFunction(repositoryID); // this needs to be updated with javier's function
+        
+        
         file = new File(path);
         length = file.length();
         isDirectory = file.isDirectory();
@@ -31,12 +28,17 @@ public class LocalEntry extends Entry {
             contents = file.list();
             directoryContents = new File[contents.length];
             for (int i = 0; i < contents.length; i++) {
-                directoryContents[i] = new File(path + "/" + contents[i]); // this should go throw every item inside of the directory and open the contents as a file
+                directoryContents[i] = new File(path + "/" + contents[i]); // this should go through every item inside of the directory and open the contents as a file
             }
         } else {
             super.readFileContents();
         }
+        
     }
-
+    
+    
+    private String JavierFunction(String repositoryID) {
+        return "1";
+    }
     
 }
