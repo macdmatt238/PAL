@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 public class LocalEntry extends Entry {
     
-    public LocalEntry(String name){
+    public LocalEntry(String name, String path){
         super(name);
         this.path = path;
         file = new File(path);
