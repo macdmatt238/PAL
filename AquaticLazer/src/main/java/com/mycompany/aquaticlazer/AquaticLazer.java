@@ -39,7 +39,7 @@ public class AquaticLazer {
                     String[] RepositoryId = new String[JFR.GetINType().get(i).size()];
                     String[] name = new String[JFR.GetParName().get(i).size()];
                     String[] value = new String[JFR.GetParName().get(i).size()];
-                    String holder = "", holder2 = "";
+                    String holder = "";
                     for(int j = 0; j < JFR.GetINType().get(i).size(); j++){     //use .size() to get the length of the array. .get(i).size() gives the length of row and use .size() to get the length of the column
                          
                         //GUI.GUIPrintln("file type: " + JFR.GetINType().get(i).get(j));  //use two .get methouds to select varibles in 2d arraylists
@@ -83,48 +83,24 @@ public class AquaticLazer {
                     
                         
                         if(JFR.GetINType().get(i).get(j).equals("local") == true){      //fill out all the entrys
-                            
-                            holder = path[j].replace(holder, path[j]);
-                            
-                            while(holder.equals("")){
-                                
-                            holder = path[j-1].replace(holder, path[j-1]);
-                                 
-                            }
                         
-                          entry[j] = new LocalEntry(JFR.GetName(), holder);
+                          entry[j] = new LocalEntry(JFR.GetName(), path[j]);
                         
                         }else{
                             
-                            holder = RepositoryId[j].replace(holder, RepositoryId[j]);
+                        
                             
-                            while(holder.equals("")){
-                                
-                            holder = RepositoryId[j-1].replace(holder, RepositoryId[j-1]);
-                                 
-                            }
-                            
-                            holder2 = EntryId[j].replace(holder2, EntryId[j]);
-                            
-                            while(holder2.equals("")){
-                                
-                            holder2 = EntryId[j-1].replace(holder2, EntryId[j-1]);
-                                 
-                            }
-                            
-                            entry[j] = new RemoteEntry(JFR.GetName(), holder, holder2);
+                            entry[j] = new RemoteEntry(JFR.GetName(), RepositoryId[j], EntryId[j]);
                             
                         }
                     }
                     
                    
                     Filter filter = new Filter();
+                    Processing processing = new Processing();
                     
                     switch(JFR.GetPEType().get(i)){
-                        case "List":
-                            
-                            break;
-                        
+
                         case "LengthFilter":
                             
                             if(name[0].equalsIgnoreCase("Length")){
@@ -151,14 +127,33 @@ public class AquaticLazer {
                             break;
                             
                             case "CountFilter":
+                                
                             if(name[0].equalsIgnoreCase("Key")){
                             filter.CountFilter(entry, value[0],Integer.parseInt(value[1]));
                             }else{
                                 filter.CountFilter(entry, value[1],Integer.parseInt(value[0]));
                             }
-                                
+                                  
+                            break;
+                            
+                            case "List":
+                            
+                                processing.List(entry,Integer.parseInt(value[1]),Integer.parseInt(value[0]));
                                 
                             break;
+                            
+                            case "Rename":
+                            
+                                processing.Rename(entry,value[0]);
+                                
+                            break;
+                            
+                            case "Split":
+                            
+                                processing.Split(entry,Integer.parseInt(value[0]));
+                                
+                            break;
+                            
                     }
         }                
     }
