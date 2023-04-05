@@ -24,6 +24,7 @@ public class LocalEntry extends Entries {
         super(name);
         this.path = path;
         file = new File(path);
+        System.out.println(file.exists());  
         length = file.length();
         isDirectory = file.isDirectory();
         
