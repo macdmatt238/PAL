@@ -1,17 +1,17 @@
 package com.mycompany.aquaticlazer;
 
-import com.nimbusds.jose.shaded.json.JSONArray;
-import com.nimbusds.jose.shaded.json.JSONObject;
-import com.nimbusds.jose.shaded.json.parser.JSONParser;
-import com.nimbusds.jose.shaded.json.parser.ParseException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 /**
  *
  * @author macdm
@@ -28,7 +28,7 @@ public class JsonFileReader {
     private ArrayList<ArrayList<String>> parametersValue = new ArrayList();
     private int loopIndex = 0;
     
-   JsonFileReader(File file){
+   JsonFileReader(File file) throws ParseException, IOException{
        
        JSONParser Jparser = new JSONParser();   //makes a jason parser 
        
@@ -59,7 +59,7 @@ public class JsonFileReader {
    public ArrayList<ArrayList<String>> GetPath(){   //gets all the private varibles a A rraylLists
        
        
-     
+     System.out.println(InputPath.get(0).get(0));
         return InputPath;
        
    }
@@ -163,6 +163,7 @@ public class JsonFileReader {
        if(INType.get(loopIndex).equals("local") == true){
                repositoryid.add("null");                              //saves the null varible in the jason file to the repositoryid varible
                entryid.add("null");                                   //saves the null varible in the jason file to the entryid varible
+               System.out.println((String) empIN.get("path"));
                INpath.add((String) empIN.get("path"));               //saves the path varible in the jason file to the INpath varible
            }else{
                INpath.add("null");                                    //saves the null varible in the jason file to the INpath varible
