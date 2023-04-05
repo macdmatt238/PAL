@@ -4,11 +4,10 @@
  */
 package com.mycompany.aquaticlazer;
 
+import Entry.Entries;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.function.Consumer;
 
 /**
  *
@@ -16,12 +15,9 @@ import java.util.function.Consumer;
  */
 public class Processing {
     
-    
-    int lines_num;
-    
-   void Split(String Entry[],int lines) throws IOException{
+  void Split(Entries [] ListofEntries,int lines) throws IOException{
        int count = 1;
-       int files = lines_num/lines;
+       int files = ListofEntries.length/lines;
        int c = 0;
        int d = lines;
        if (lines > 1){
@@ -32,7 +28,7 @@ public class Processing {
                    System.out.print("File created: "  + myObj.getName());
                    for(int j = c; j < d; j++){
                        try (FileWriter mywrite = new FileWriter(myObj.getName())) {
-                           mywrite.write(Entry[j]);
+                           mywrite.write(ListofEntries[j].contents[j]);
                            mywrite.close();
                        }
                    }
@@ -43,7 +39,6 @@ public class Processing {
            }
            catch(IOException e){
                System.out.println("an error occurred.");
-               e.printStackTrace();
            }
            c = c + lines;
            d = d + lines;
@@ -54,40 +49,39 @@ public class Processing {
            System.out.println("No Lines in the file");
        }
    }
-   void List(File Entry[],int max,int id[]){
-       File Directories[] = null;
-       for(int i = 0; i < Entry.length;i++){
-           if(id[i]==0){
-               Directories[i] = Entry[i];
+   Entries[] List(Entries Entries[],int max){
+       Entries[] a = null;
+       Entries Directories[] = null;
+       for(int i = 0; i < Entries.length;i++){
+           if(Entries[i].isDirectory == true){
+               Directories[i] = Entries[i];
            }
        }
        for(int j = 0; j <Directories.length;j++){
-           File a[];
-           a= Directories[j].listFiles();
-           for(int k = 0; k < max;k++){
-               System.out.println(a[k]);
+           for(int k = 0; k < Directories[j].directoryContents.length;k++){
+               System.out.println(Directories[j].directoryContents[k]);
+               a[k] = Directories[j].directoryContents[k];
            }
        }
+       return a;
    }
-   void Rename(String Entry[],String suffix){
-       for(int j = 0; j < Entry.length;j++){
-            String filename = Entry[j];
-            String [] array= filename.split(".");
-            Entry[j] = array[0] + suffix + array[1];  
+   Entries [] Rename(Entries[] Entries,String suffix){
+       Entries renamed [] =  null;
+       for(int j = 0; j < Entries.length;j++){
+            Entries filename = Entries[j];
+            Entries [] array= filename.split(".");
+            renamed[j] = array[0] + suffix + array[1];  
+       }
+       return Entries[];
+   }
+   void Print(Entries [] Entries){
+       for(int i = 0; i < Entries.length;i++){
+           System.out.println(Entries[i].name+" "+Entries[i].path+" "+Entries[i].length);
+       }
+    }
+   void PrintOverride(Entries [] Entries){
+       for(int i = 0; i < Entries.length;i++){
+           System.out.println(Entries[i].name+" "+Entries[i].path+" "+Entries[i].length + " "Entries[i].repositoryID);
        }
    }
-   void Print(String Entry_repo[],String Entry_repo1[],String Entry_repo2[],String Entry_repo3[],int id, String Entry[],String Entry1[],String Entry2[]){
-      if(id==0){
-       for(int i = 0; i < Entry.length;i++){
-           System.out.println(Entry[i]+" "+Entry1[i]+" "+Entry2[i]);
-       }
-      }
-      if(id==1){
-          for(int j = 0; j< Entry_repo.length; j++){
-              System.out.println(Entry_repo[j]+" "+Entry_repo1[j]+" "+Entry_repo2[j]+" "+Entry_repo3[j]);
-          }
-      }
-   }
-   
-   
 }
