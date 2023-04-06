@@ -16,7 +16,7 @@ import com.mycompany.aquaticlazer.GUI;
 public class LocalEntry extends Entries {
     
     public LocalEntry(String path){
-        
+        //sfe
         this.path = path;
         file = new File(path);
         System.out.println(file.exists());  
