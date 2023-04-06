@@ -4,84 +4,124 @@
  */
 package com.mycompany.aquaticlazer;
 
+
 import Entry.Entries;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
  * @author macdm
- */
+ */   
 public class Processing {
-    
-  void Split(Entries [] ListofEntries,int lines) throws IOException{
-       int count = 1;
-       int files = ListofEntries.length/lines;
-       int c = 0;
-       int d = lines;
-       if (lines > 1){
-         for(int i = 0;i < files;i++){ 
-           try{
-               File myObj = new File ("file"+count+".txt");
-               if (myObj.createNewFile()){
-                   System.out.print("File created: "  + myObj.getName());
-                   for(int j = c; j < d; j++){
-                       try (FileWriter mywrite = new FileWriter(myObj.getName())) {
-                           mywrite.write(ListofEntries[j].contents[j]);
-                           mywrite.close();
-                       }
-                   }
-               }
-               else{
-                   System.out.println("File already exists.");
-               }
+   Entries[] Split(Entries list[], int lines) throws IOException {
+        Entries a[] = new Entries[list.length];
+        Entries b[] = new Entries[list.length];
+        int c = 0;
+        int d = lines;
+        int num;
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null) {
+                if (list[i].isDirectory == false) {
+                    a[i] = new Entries();
+                    a[i].file = list[i].file;
+                    a[i].contents = list[i].contents;
+                    List<String> tmpList = new ArrayList<String>(Arrays.asList(a[i].contents));
+                    if (a[i] != null) {
+                        long file_num = tmpList.size() / lines;
+                        if (tmpList.size()%lines > 0) 
+                            file_num = file_num + 1;
+                        for (int j = 0; j < file_num; j++) {
+                            num = j + 1;
+                            File file = new File(a[i].file.getName() + num + ".txt");
+                            if (file.createNewFile()) {
+                                try {
+                                    String tmpStringAry[] = new String[lines];
+                                    FileWriter mywriter = new FileWriter(file);
+                                    for (int k = 0; k < lines && k < tmpList.size(); k++) {
+                                        String curLine = tmpList.get(k);
+                                        tmpStringAry[k] = curLine;
+                                        mywriter.write(curLine);
+                                    }
+                                    mywriter.close();
+                                    for (int k=0; k <tmpStringAry.length; k++) {
+                                        tmpList.remove(tmpStringAry[k]);
+                                    }
+                                } catch (IOException ex) {
+                                    System.out.println("an error occurred.");
+                                    ex.printStackTrace();
+                                }
+                                //}
+                                //}
+                            } else {
+                                System.out.println("File already exists");
+                            }
+                            b[j] = new Entries();
+                            b[j].file = file;
+                            
+                        }
+                    }
+                } else {
+                    System.out.println("This is a directory");
+                }
+            }
+        }
+        return b;
+    }
+
+   
+   Entries[] List(Entries[] Entries,long max){
+       
+       
+       ArrayList<Entries> output = new ArrayList<Entries>();
+       Entries[] outputList;
+       int Directorysize = 0;
+       for(int i = 0; i < Entries.length;i++){
+           if(Entries[i].isDirectory == true){
+               Directorysize++;
            }
-           catch(IOException e){
-               System.out.println("an error occurred.");
-           }
-           c = c + lines;
-           d = d + lines;
-           count++;
        }
-       }
-       else{
-           System.out.println("No Lines in the file");
-       }
-   }
-   Entries[] List(Entries Entries[],int max){
-       Entries[] a = null;
-       Entries Directories[] = null;
+       Entries[] Directories =  new Entries[Directorysize];
+       long a_size = Directorysize;
        for(int i = 0; i < Entries.length;i++){
            if(Entries[i].isDirectory == true){
                Directories[i] = Entries[i];
            }
        }
-       for(int j = 0; j <Directories.length;j++){
-           for(int k = 0; k < Directories[j].directoryContents.length;k++){
-               System.out.println(Directories[j].directoryContents[k]);
-               a[k] = Directories[j].directoryContents[k];
+       
+       for (int i = 0; i < Directories.length; i++) {
+           for (int j = 1; j < max+1 && j < Directories[i].contents.length; j++) {
+               output.add(Directories[i].directoryContents[j]);
            }
        }
-       return a;
-   }
-   Entries [] Rename(Entries[] Entries,String suffix){
-       Entries renamed [] =  null;
-       for(int j = 0; j < Entries.length;j++){
-            Entries filename = Entries[j];
-            Entries [] array= filename.split(".");
-            renamed[j] = array[0] + suffix + array[1];  
+       outputList = new Entries[output.size()];
+       
+       for (int i = 0; i < output.size(); i++) {
+           outputList[i] = output.get(i);
        }
-       return Entries[];
+       return outputList;
+       
+       
    }
-   void Print(Entries [] Entries){
-       for(int i = 0; i < Entries.length;i++){
-           System.out.println(Entries[i].name+" "+Entries[i].path+" "+Entries[i].length);
-       }
+  Entries[] Rename(Entries list[], String Suffix) {
+        String[] names = new String[list.length];
+        File a[] = new File[list.length];
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null) {
+                a[i] = list[i].file;
+            }
+        }
+        for (int j = 0; j < a.length; j++) {
+            if (a[j] != null) {
+                list[j].file = new File(a[j].getName() + Suffix + ".txt");
+            }
+        }
+        return list;
     }
-   void PrintOverride(Entries [] Entries){
-       for(int i = 0; i < Entries.length;i++){
-           System.out.println(Entries[i].name+" "+Entries[i].path+" "+Entries[i].length + " "Entries[i].repositoryID);
-       }
-   }
-}
+
+         
+      }
