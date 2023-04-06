@@ -96,7 +96,7 @@ public class AquaticLazer {
                     
                     if(JFR.GetINType().get(i).get(j).equals("local") == true){      //fill out all the entrys
                         
-                        entry[j] = new LocalEntry( path[j]);
+                        entry[j] = new LocalEntry( path[j]);                            
                         
                     }else{
                         
@@ -108,25 +108,25 @@ public class AquaticLazer {
                 }
                 
                 
-                Filter filter = new Filter();
-                Processing processing = new Processing();
+                Filter filter = new Filter();           //makes a instance of the filter class
+                Processing processing = new Processing();//makes a instance of the processing class
                 
                 
                 
-                switch(JFR.GetPEType().get(i)){
+                switch(JFR.GetPEType().get(i)){     //if the type of processing element is 
                     
                     case "LengthFilter":
                         
-                        if(i == 0){
+                        if(i == 0){     //if it is the first processing element
                             
-                            if(name[0].equalsIgnoreCase("Length")){
-                                Entries[] temp = filter.LengthFilter(entry, Long.parseLong(value[0]), value[1]);
-                                entHolder.clear();
-                                for (Entries temp2: temp) {
+                            if(name[0].equalsIgnoreCase("Length")){       //if the name 0 is equal to length then put value 0 in the length peramater
+                                Entries[] temp = filter.LengthFilter(entry, Long.parseLong(value[0]), value[1]);    //save all the files that pass into temp
+                                entHolder.clear();      //clear everything out of entholder
+                                for (Entries temp2: temp) {     //add temp to entholder so it does not get erased for the next loop
                                     entHolder.add(temp2);
                                 }
                                 
-                            }else{
+                            }else{          //if the name 0 is not equal to length then put value 1 in the length peramater
                                 Entries[] temp = filter.LengthFilter(entry, Long.parseLong(value[1]), value[0]);
                                 entHolder.clear();
                                 for (Entries temp2: temp) {
@@ -135,7 +135,7 @@ public class AquaticLazer {
                                 
                             }
                             
-                        }else{
+                        }else{      //if this is not the first loop then put entholder into the processing element 
                             
                             if(name[0].equalsIgnoreCase("Length")){
                                 
@@ -159,10 +159,10 @@ public class AquaticLazer {
                     case "Print":
                         //sf
                         
-                        for(int o = 0; o < entHolder.size(); o++){
+                        for(int o = 0; o < entHolder.size(); o++){  //loop for eatch file
                             
-                            if(i == 0){
-                                entry[o].print(gui);
+                            if(i == 0){                 //if it is the first processing element
+                                entry[o].print(gui);    //print to the gui
                             }else{
                                 
                                 entHolder.toArray(new Entries[0])[o].print(gui);
@@ -175,7 +175,7 @@ public class AquaticLazer {
                         
                     case "NameFilter":
                         
-                        if(i == 0){
+                        if(i == 0){         //if it is the first processing element
                             
                             Entries[] temp = filter.NameFilter(entry, value[0]);
                             entHolder.clear();
@@ -193,7 +193,7 @@ public class AquaticLazer {
                         break;
                         
                     case "ContentFilter":
-                        if(i == 0){
+                        if(i == 0){         //if it is the first processing element
                             Entries[] temp = filter.ContentFilter(entry, value[0]);
                             entHolder.clear();
                             for (Entries temp2: temp) {
@@ -209,7 +209,7 @@ public class AquaticLazer {
                         break;
                         
                     case "CountFilter":
-                        if(i == 0){
+                        if(i == 0){             //if it is the first processing element
                             if(name[0].equalsIgnoreCase("Key")){
                                 Entries[] temp = filter.CountFilter(entry, value[0],Integer.parseInt(value[1]));
                                 entHolder.clear();
@@ -241,7 +241,7 @@ public class AquaticLazer {
                         break;
                         
                     case "List":
-                        if(i == 0){
+                        if(i == 0){                         //if it is the first processing element
                           Entries[] temp = processing.List(entry,Long.parseLong(value[0]));
                           entHolder.clear();
                                 for (Entries temp2: temp) {
@@ -258,7 +258,7 @@ public class AquaticLazer {
                         
                     case "Rename":
                         
-                        if(i == 0){
+                        if(i == 0){                 //if it is the first processing element
                           Entries[] temp = processing.Rename(entry,value[0]);
                           entHolder.clear();
                                 for (Entries temp2: temp) {
@@ -275,7 +275,7 @@ public class AquaticLazer {
                         
                     case "Split":
                         
-                        if(i == 0){
+                        if(i == 0){                 //if it is the first processing element
                           Entries[] temp = processing.Split(entry,Integer.parseInt(value[0]));
                           entHolder.clear();
                                 for (Entries temp2: temp) {
