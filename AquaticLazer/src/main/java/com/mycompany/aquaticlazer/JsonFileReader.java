@@ -17,7 +17,7 @@ import org.json.simple.parser.ParseException;
  * @author macdm
  */
 public class JsonFileReader {
-
+//sfe
     private String name;
     private ArrayList<String> PEType = new ArrayList<>();               //made varibles
     private ArrayList<ArrayList<String>> InputType = new ArrayList();
