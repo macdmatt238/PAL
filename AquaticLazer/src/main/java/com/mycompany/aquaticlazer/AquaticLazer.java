@@ -19,15 +19,15 @@ public class AquaticLazer {
 
     public static void main(String[] args) {
         try {
-            GUI GUI = new GUI();	//runs get file path class
+            GUI gui = new GUI();	//runs get file path class
             
-            while(GUI.IfFileGot() == 1) {	//stops the program till a file is selected
+            while(gui.IfFileGot() == 1) {	//stops the program till a file is selected
                 System.out.print("");
             }
             
             
             
-            JsonFileReader JFR = new JsonFileReader(GUI.GetFile()); //creates a JsonFileReader class
+            JsonFileReader JFR = new JsonFileReader(gui.GetFile()); //creates a JsonFileReader class
             
             //GUI.GUIPrintln("Scenario name: " + JFR.GetName());      //start of an example on how to find the length and varibles of the json file arrays
             //GUI.GUIPrintln("Processing elements are: ");
@@ -96,13 +96,13 @@ public class AquaticLazer {
                     
                     if(JFR.GetINType().get(i).get(j).equals("local") == true){      //fill out all the entrys
                         
-                        entry[j] = new LocalEntry(JFR.GetName(), path[j]);
+                        entry[j] = new LocalEntry( path[j]);
                         
                     }else{
                         
                         
                         
-                        entry[j] = new RemoteEntry(JFR.GetName(), RepositoryId[j], EntryId[j]);
+                        entry[j] = new RemoteEntry(RepositoryId[j], EntryId[j]);
                         
                     }
                 }
@@ -120,7 +120,6 @@ public class AquaticLazer {
                         if(i == 0){
                             
                             if(name[0].equalsIgnoreCase("Length")){
-                                System.out.println(entry.length+Long.parseLong(value[0])+value[1]);
                                 Entries[] temp = filter.LengthFilter(entry, Long.parseLong(value[0]), value[1]);
                                 entHolder.clear();
                                 for (Entries temp2: temp) {
@@ -160,13 +159,13 @@ public class AquaticLazer {
                     case "Print":
                         
                         
-                        for(int o = 0; o <= JFR.GetINType().get(i).size(); o++){
+                        for(int o = 0; o < entHolder.size(); o++){
                             
                             if(i == 0){
-                                entry[o].print();
+                                entry[o].print(gui);
                             }else{
                                 
-                                entHolder.toArray(new Entries[0])[o].print();
+                                entHolder.toArray(new Entries[0])[o].print(gui);
                                 
                             }
                             
@@ -242,21 +241,53 @@ public class AquaticLazer {
                         break;
                         
                     case "List":
-                        
-                        //  processing.List(entry,Integer.parseInt(value[1]),Integer.parseInt(value[0]));
-                        
+                        if(i == 0){
+                          Entries[] temp = processing.List(entry,Long.parseLong(value[0]));
+                          entHolder.clear();
+                                for (Entries temp2: temp) {
+                                    entHolder.add(temp2);
+                                }
+                        }else{
+                            Entries[] temp = processing.List(entHolder.toArray(new Entries[0]),Long.parseLong(value[0]));
+                            entHolder.clear();
+                                for (Entries temp2: temp) {
+                                    entHolder.add(temp2);
+                                }
+                        }
                         break;
                         
                     case "Rename":
                         
-                        // processing.Rename(entry,value[0]);
-                        
+                        if(i == 0){
+                          Entries[] temp = processing.Rename(entry,value[0]);
+                          entHolder.clear();
+                                for (Entries temp2: temp) {
+                                    entHolder.add(temp2);
+                                }
+                        }else{
+                            Entries[] temp = processing.Rename(entHolder.toArray(new Entries[0]),value[0]);
+                            entHolder.clear();
+                                for (Entries temp2: temp) {
+                                    entHolder.add(temp2);
+                                }
+                        }
                         break;
                         
                     case "Split":
                         
-                        //  processing.Split(entry,Integer.parseInt(value[0]));
-                        
+                        if(i == 0){
+                          Entries[] temp = processing.Split(entry,Integer.parseInt(value[0]));
+                          entHolder.clear();
+                                for (Entries temp2: temp) {
+                                    entHolder.add(temp2);
+                                }
+                        }else{
+                            Entries[] temp = processing.Split(entry,Integer.parseInt(value[0]));
+                            entHolder.clear();
+                                for (Entries temp2: temp) {
+                                    entHolder.add(temp2);
+                                }
+                        }
                         break;
                         
                 }
@@ -268,4 +299,5 @@ public class AquaticLazer {
             Logger.getLogger(AquaticLazer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-}
+}   
+ 
