@@ -27,7 +27,7 @@ public class Entries {
     }
 
     void readFileContents() {
-        
+        //sfs
         int newLineLocation;
         ArrayList<String> tempAL = new ArrayList<String>();
         StringBuilder sb = new StringBuilder();
