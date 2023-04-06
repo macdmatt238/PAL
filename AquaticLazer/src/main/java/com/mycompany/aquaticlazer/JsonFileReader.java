@@ -17,7 +17,7 @@ import org.json.simple.parser.ParseException;
  * @author macdm
  */
 public class JsonFileReader {
-
+//sfe
     private String name;
     private ArrayList<String> PEType = new ArrayList<>();               //made varibles
     private ArrayList<ArrayList<String>> InputType = new ArrayList();
@@ -59,7 +59,7 @@ public class JsonFileReader {
    public ArrayList<ArrayList<String>> GetPath(){   //gets all the private varibles a A rraylLists
        
        
-     System.out.println(InputPath.get(0).get(0));
+    
         return InputPath;
        
    }
@@ -163,7 +163,7 @@ public class JsonFileReader {
        if(INType.get(loopIndex).equals("local") == true){
                repositoryid.add("null");                              //saves the null varible in the jason file to the repositoryid varible
                entryid.add("null");                                   //saves the null varible in the jason file to the entryid varible
-               System.out.println((String) empIN.get("path"));
+               
                INpath.add((String) empIN.get("path"));               //saves the path varible in the jason file to the INpath varible
            }else{
                INpath.add("null");                                    //saves the null varible in the jason file to the INpath varible

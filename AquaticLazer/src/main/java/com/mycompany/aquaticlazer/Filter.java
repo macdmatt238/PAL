@@ -8,12 +8,12 @@ import Entry.Entries;
 
 /**
  *
- * @author macdm
+ * @author arence
  */
 public class Filter {
     
      public Entries[] NameFilter(Entries[] ListofEntries, String Key) {
-
+//sefse
         int count = 0;
         for (int x = 0; x < ListofEntries.length; x++) {
             if (ListofEntries[x].name.contains(Key)) {  // Counts the number of entries with the key in its name
@@ -34,6 +34,7 @@ public class Filter {
     public Entries[] LengthFilter(Entries[] ListofEntries, Long Length, String Operator) {
         int count = 0;
         for (int x = 0; x < ListofEntries.length; x++) {  //counts the number of entries that are single files and not directories
+            System.out.println(ListofEntries[x].path);
             if (!ListofEntries[x].isDirectory) {
                 count++;
             }

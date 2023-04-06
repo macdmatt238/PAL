@@ -8,6 +8,7 @@ import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.repository.api.RepositoryApiClient;
 import com.laserfiche.repository.api.RepositoryApiClientImpl;
 import com.laserfiche.repository.api.clients.impl.model.ODataValueContextOfIListOfEntry;
+import com.mycompany.aquaticlazer.GUI;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,8 +23,8 @@ import java.util.function.Consumer;
 public class RemoteEntry extends Entries{
     String repositoryID;
     String entryID;
-    public RemoteEntry(String name, String repositoryID, String entryID) {
-        super(name);
+    public RemoteEntry(String repositoryID, String entryID) {
+        
         this.repositoryID = repositoryID;
         this.entryID = entryID;
         this.path = JavierFunction(repositoryID); // this needs to be updated with javier's function
@@ -32,26 +33,28 @@ public class RemoteEntry extends Entries{
         file = new File(path);
         length = file.length();
         isDirectory = file.isDirectory();
+        name = file.getName();
         
         if (isDirectory) {
             contents = file.list();
-            directoryContents = new File[contents.length];
+            directoryContents = new Entries[contents.length];
             for (int i = 0; i < contents.length; i++) {
-                directoryContents[i] = new File(path + "/" + contents[i]); // this should go through every item inside of the directory and open the contents as a file
+                directoryContents[i] = new LocalEntry(path + "/" + contents[i]); // this should go throw every item inside of the directory and open the contents as an LocalEntry
             }
         } else {
             super.readFileContents();
         }
         
     }
-    
+    //sf
+
     @Override
-    public void print() {
-        System.out.println("Name: " + name);
-        System.out.println("Path: " + path); 
-        System.out.println("Size: " + length + "bytes");
-        System.out.println("EntryID: " + entryID);
-        System.out.println("RepoID: " + repositoryID);
+    public void print(GUI gui) {
+        gui.GUIPrintln("Name: " + name);
+        gui.GUIPrintln("Path: " + path); 
+        gui.GUIPrintln("Size: " + length + "bytes");
+        gui.GUIPrintln("EntryID: " + entryID);
+        gui.GUIPrintln("RepoID: " + repositoryID);
     }
     
     
@@ -59,14 +62,13 @@ public class RemoteEntry extends Entries{
 
         String path=null;
 
-        int entryid=-48;
+        int entryid=0;
         int idlength=repositoryID.length();
         for (int i = 0; i < idlength; i++) {
             char character=repositoryID.charAt(i);
-            entryid+=(int)character;
+            entryid =(entryid*10)-48+(int)character;
         }
-        if (entryid == 1) {
-        } else if (entryid == 4 || entryid == 15 || entryid == 18 || entryid == 23) {
+        if (entryid == 4 || entryid == 15 || entryid == 18 || entryid == 23) {
             String servicePrincipalKey = "9udNhuNq85BwiQW7R_va";
             String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOWQwYWMwYTAtZGI4NC00N2RlLWIxZWYtMjI0ZDRiYzZkY2NhIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImFBU3NaSGFMX1M4bW1qbmVCTkktd3o2c0JBWHFTQmtPWE96V2ZtSjZQbGciLAoJCSJ4IjogImFfTHNINzBoNDVOM0dTUnV4d2RTMmhWSHFyMGcxdGdMVk9wRHV6MjFIRk0iLAoJCSJ5IjogIkpNT1AzQzV1UFNMSFBEUld2TTNTVlVrbjZfNXZkUTJWZTNaaUdTc3I4LTAiLAoJCSJkIjogIlJTS21FeGQxUFBSczBNbnBIUm5QaTNFY2x5VHpCUnJJUnhvVHlGQmhVVWMiLAoJCSJpYXQiOiAxNjc3Mjk3ODY3Cgl9Cn0";
             String repositoryId = "r-0001d410ba56";
@@ -78,7 +80,7 @@ public class RemoteEntry extends Entries{
 
              com.laserfiche.repository.api.clients.impl.model.Entry entry = client.getEntriesClient().getEntry(repositoryId, entryid, null).join();
 
-            path = "C:\\Users\\javie\\Documents\\NetBeansProjects\\Final Project\\newprojecttest\\";
+            path = "src\\main\\java";
             path = path + entry.getName();
             File f1 = new File(path);
             boolean bool = f1.mkdir();
@@ -130,7 +132,7 @@ public class RemoteEntry extends Entries{
             String servicePrincipalKey = "9udNhuNq85BwiQW7R_va";
             String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOWQwYWMwYTAtZGI4NC00N2RlLWIxZWYtMjI0ZDRiYzZkY2NhIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImFBU3NaSGFMX1M4bW1qbmVCTkktd3o2c0JBWHFTQmtPWE96V2ZtSjZQbGciLAoJCSJ4IjogImFfTHNINzBoNDVOM0dTUnV4d2RTMmhWSHFyMGcxdGdMVk9wRHV6MjFIRk0iLAoJCSJ5IjogIkpNT1AzQzV1UFNMSFBEUld2TTNTVlVrbjZfNXZkUTJWZTNaaUdTc3I4LTAiLAoJCSJkIjogIlJTS21FeGQxUFBSczBNbnBIUm5QaTNFY2x5VHpCUnJJUnhvVHlGQmhVVWMiLAoJCSJpYXQiOiAxNjc3Mjk3ODY3Cgl9Cn0";
             String repositoryId = "r-0001d410ba56";
-            path = "C:\\Users\\javie\\Documents\\NetBeansProjects\\Final Project\\newprojecttest";
+            path = "src\\main\\java";
             AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
 
             RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
@@ -169,8 +171,6 @@ public class RemoteEntry extends Entries{
 
             client.close();
             System.out.println("done");
-        }
-        else{
         }
         return path;
     }

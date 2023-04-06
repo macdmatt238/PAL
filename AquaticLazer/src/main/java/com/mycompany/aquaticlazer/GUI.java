@@ -36,8 +36,8 @@ public class GUI extends JFrame implements ActionListener{
        private final JLabel label;
        private final JLabel[] textLab = new JLabel[66];
        private String text = "Please open a file";
-	GUI(){
-		
+	public GUI(){
+		//sefe
             
 		ImageIcon icon = new ImageIcon("src\\main\\java\\LaseficheIcon.jpg");
 		ImageIcon BackIcon = new ImageIcon("src\\main\\java\\BackGround.jpg");
@@ -126,26 +126,22 @@ public class GUI extends JFrame implements ActionListener{
                
 	}
 		
-        void GUIPrintln(String input){
+       public void GUIPrintln(String input){
             
-            String holder = text;
-            
-            text = input.replace(holder, input);
-                
             firstPrint = 1;
             
-            System.out.println(text);
-            textLab[text_count].setText(text);
+            System.out.println(input);
+            textLab[text_count].setText(input);
             text_count++;
         }
         
-        void GUIPrint(String input){
+        public void GUIPrint(String input){
             
             String holder = text;
             
             if(firstPrint == 0){
             
-                text = input.replace(holder, input);
+                text = input;
                 
             firstPrint = 1;
             }
