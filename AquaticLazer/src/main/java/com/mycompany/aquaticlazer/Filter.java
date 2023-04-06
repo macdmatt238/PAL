@@ -13,7 +13,7 @@ import Entry.Entries;
 public class Filter {
     
      public Entries[] NameFilter(Entries[] ListofEntries, String Key) {
-
+//sefse
         int count = 0;
         for (int x = 0; x < ListofEntries.length; x++) {
             if (ListofEntries[x].name.contains(Key)) {  // Counts the number of entries with the key in its name
