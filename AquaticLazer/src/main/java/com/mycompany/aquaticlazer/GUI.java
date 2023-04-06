@@ -37,7 +37,7 @@ public class GUI extends JFrame implements ActionListener{
        private final JLabel[] textLab = new JLabel[66];
        private String text = "Please open a file";
 	public GUI(){
-		
+		//sefe
             
 		ImageIcon icon = new ImageIcon("src\\main\\java\\LaseficheIcon.jpg");
 		ImageIcon BackIcon = new ImageIcon("src\\main\\java\\BackGround.jpg");
