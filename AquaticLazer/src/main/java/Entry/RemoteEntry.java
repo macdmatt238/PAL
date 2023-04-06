@@ -46,7 +46,7 @@ public class RemoteEntry extends Entries{
         }
         
     }
-    
+    //sf
 
     @Override
     public void print(GUI gui) {
