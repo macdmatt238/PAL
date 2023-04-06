@@ -167,14 +167,13 @@ public class JsonFileReader {
                INpath.add((String) empIN.get("path"));               //saves the path varible in the jason file to the INpath varible
            }else{
                INpath.add("null");                                    //saves the null varible in the jason file to the INpath varible
-               repositoryid.add((String) empIN.get("repositoryid")); //saves the repositoryid varible in the jason file to the repositoryid varible
-               entryid.add((String) empIN.get("entryid"));           //saves the entryid varible in the jason file to the entryid varible
-             
+               repositoryid.add((String) empIN.get("repositoryId")); //saves the repositoryid varible in the jason file to the repositoryid varible
+                                                               //^Javier fixed minor case error
+               entryid.add((String) empIN.get("entryId"));           //saves the entryid varible in the jason file to the entryid varible
+                                                     //^Javier fixed minor case error
            }
        loopIndex++;
     }   
      
      
 }
-
-  

@@ -71,9 +71,10 @@ public class AquaticLazer {
                         
                         // GUI.GUIPrintln("file EntryId: " + JFR.GetEntryId().get(i).get(j));
                         // GUI.GUIPrintln("file RepositoryId: " + JFR.GetRepositoryId().get(i).get(j));
-                        
-                        EntryId[j] = JFR.GetEntryId().get(i).get(j);
                         RepositoryId[j] = JFR.GetRepositoryId().get(i).get(j);
+                            //Javier flipped the the two lines here to work with repository calls
+                        EntryId[j] = JFR.GetEntryId().get(i).get(j);
+                        
                     }
                     
                     
@@ -101,7 +102,7 @@ public class AquaticLazer {
                     }else{
                         
                         
-                        
+                        System.out.println(EntryId[j]);
                         entry[j] = new RemoteEntry(RepositoryId[j], EntryId[j]);
                         
                     }
@@ -300,4 +301,3 @@ public class AquaticLazer {
         }
     }
 }   
- 
