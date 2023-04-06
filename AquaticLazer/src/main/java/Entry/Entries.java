@@ -27,40 +27,26 @@ public class Entries {
     }
 
     void readFileContents() {
-        //sfs
-        int newLineLocation;
-        ArrayList<String> tempAL = new ArrayList<String>();
-        StringBuilder sb = new StringBuilder();
-        sb.append('\n'); // this is done because then everytime each line starts with a \n character which matters when i begin emptying the string builder
+       ArrayList<String> tempAL = new ArrayList<>();
         String temp;
         try {
-        BufferedReader reader = new BufferedReader(new FileReader(path));
+        BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
 
-        while ((temp = reader.readLine()) != null) {
-            sb.append(temp);
+        while ((temp = reader.readLine()) != null) { // reads everything into the arraylist one line at a time
+            tempAL.add(temp);
+        }
 
-        }
-        
-        while (sb.length() != 0) {
-            newLineLocation = sb.indexOf("\n", 1);
-            
-            if (newLineLocation == -1) {
-                tempAL.add(sb.delete(0, sb.length()).toString());
-            } else {
-                tempAL.add(sb.delete(1, sb.indexOf("\n", 1)).toString()); // slowly empties the string builder and adds it to the array list one element at a time
-                // deletes the elements from the second character to the element before the \n character and then converts it to a string
-                sb.deleteCharAt(0); // needs to delete the first element
-            }
-        }
-        contents = new String[tempAL.size()];
+        String[] contents = new String[tempAL.size()];
         for (int i = 0; i < tempAL.size(); i++) {
-            contents[i] = tempAL.get(i);
+            contents[i] = tempAL.get(i); // adds everything in the array list to the contents array
         }
         
         reader.close();
-        } catch (IOException e) {
-            
-        }
+
+        this.contents = contents;
+    } catch (IOException e) {
+        System.out.println("BROKEN");
+    } 
         
     }
     

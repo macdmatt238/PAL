@@ -6,6 +6,7 @@ package com.mycompany.aquaticlazer;
 
 //sfe
 import Entry.Entries;
+import Entry.LocalEntry;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,58 +20,37 @@ import java.util.List;
  */   
 public class Processing {
    Entries[] Split(Entries list[], int lines) throws IOException {
-        Entries a[] = new Entries[list.length];
-        Entries b[] = new Entries[list.length];
-        int c = 0;
-        int d = lines;
-        int num;
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] != null) {
-                if (list[i].isDirectory == false) {
-                    a[i] = new Entries();
-                    a[i].file = list[i].file;
-                    a[i].contents = list[i].contents;
-                    List<String> tmpList = new ArrayList<String>(Arrays.asList(a[i].contents));
-                    if (a[i] != null) {
-                        long file_num = tmpList.size() / lines;
-                        if (tmpList.size()%lines > 0) 
-                            file_num = file_num + 1;
-                        for (int j = 0; j < file_num; j++) {
-                            num = j + 1;
-                            File file = new File(a[i].file.getName() + num + ".txt");
-                            if (file.createNewFile()) {
-                                try {
-                                    String tmpStringAry[] = new String[lines];
-                                    FileWriter mywriter = new FileWriter(file);
-                                    for (int k = 0; k < lines && k < tmpList.size(); k++) {
-                                        String curLine = tmpList.get(k);
-                                        tmpStringAry[k] = curLine;
-                                        mywriter.write(curLine);
-                                    }
-                                    mywriter.close();
-                                    for (int k=0; k <tmpStringAry.length; k++) {
-                                        tmpList.remove(tmpStringAry[k]);
-                                    }
-                                } catch (IOException ex) {
-                                    System.out.println("an error occurred.");
-                                    ex.printStackTrace();
-                                }
-                                //}
-                                //}
-                            } else {
-                                System.out.println("File already exists");
-                            }
-                            b[j] = new Entries();
-                            b[j].file = file;
-                            
-                        }
+        ArrayList<Entries> output = new ArrayList<Entries>();
+        File outputFile;
+        String outputPath;
+        for (Entries i : list) { // goes through everything in the list
+            try {
+                int fileNum = 1;
+                int lineNum = 0;
+                while (lineNum < i.contents.length) { // only goes until the end of the file
+                // create a new file with a unique name
+                outputPath = i.path.substring(i.path.lastIndexOf(".")); // finds the .txt at the end of the file name
+                outputFile = new File(outputPath + fileNum + ".txt"); // inserts the number in front of the .txt
+                outputFile.createNewFile();
+
+                // write the lines to the file
+                try (FileWriter writer = new FileWriter(outputFile)) {
+                    int linesWritten = 0;
+                    while (lineNum < i.contents.length && linesWritten < lines) { // goes until the end of the number of lines listed or the end of the file
+                        writer.write(i.contents[lineNum] + "\n"); // writes it to the file
+                        lineNum++;
+                        linesWritten++;
                     }
-                } else {
-                    System.out.println("This is a directory");
                 }
+                output.add(new LocalEntry(outputFile.getPath())); // adds the completed file to the output
+                fileNum++;
             }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+           
         }
-        return b;
+        return output.toArray(new Entries[0]); 
     }
 
    
@@ -108,19 +88,27 @@ public class Processing {
        
    }
   Entries[] Rename(Entries list[], String Suffix) {
-        String[] names = new String[list.length];
-        File a[] = new File[list.length];
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] != null) {
-                a[i] = list[i].file;
+         ArrayList<Entries> output = new ArrayList<Entries>();
+        File newFile;
+        String newFileName;
+        for (Entries i: list) { // goes through everything in the list
+            String fileName = i.file.getName();
+            if (fileName.endsWith(".txt")) { // if the file ends in .txt then it has to be handled appropriatley
+                newFileName = fileName.substring(0,fileName.lastIndexOf(".txt")) + Suffix + ".txt"; // creates the new file name
+                newFile = new File(i.file.getParentFile() + newFileName); // makes the file object needed to rename the old file with the new name
+            } else { // this is if there is no .txt file at the end
+                newFileName = fileName + Suffix + ".txt";
+                newFile = new File(i.file.getParentFile() + newFileName); // makes the new file object since the one up there didn't run since this is the else
+            }
+            
+            if (!i.file.renameTo(newFile)) { // shouldn't run but it tries to rename the file and if it fails it will enter this if statement
+                System.out.println("Failed to rename " + i.file.getName()); // tells the console it failed
+                output.add(new LocalEntry(i.path)); // adds the old object back
+            } else {
+                output.add(new LocalEntry(i.file.getParentFile() + newFileName)); // adds the renamed file
             }
         }
-        for (int j = 0; j < a.length; j++) {
-            if (a[j] != null) {
-                list[j].file = new File(a[j].getName() + Suffix + ".txt");
-            }
-        }
-        return list;
+        return output.toArray(new Entries[0]);
     }
 
          
