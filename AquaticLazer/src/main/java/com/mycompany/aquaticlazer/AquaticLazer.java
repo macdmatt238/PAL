@@ -283,7 +283,7 @@ public class AquaticLazer {
                                     entHolder.add(temp2);
                                 }
                         }else{
-                            Entries[] temp = processing.Split(entry,Integer.parseInt(value[0]));
+                            Entries[] temp = processing.Split(entHolder.toArray(new Entries[0]),Integer.parseInt(value[0]));
                             entHolder.clear();
                                 for (Entries temp2: temp) {
                                     entHolder.add(temp2);
