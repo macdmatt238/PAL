@@ -13,13 +13,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author macdm
  */   
 public class Processing {
-   Entries[] Split(Entries list[], int lines) throws IOException {
+   Entries[] Split(Entries[] list, int lines){
         ArrayList<Entries> output = new ArrayList<Entries>();
         File outputFile;
         String outputPath;
@@ -29,7 +31,7 @@ public class Processing {
                 int lineNum = 0;
                 while (lineNum < i.contents.length) { // only goes until the end of the file
                 // create a new file with a unique name
-                outputPath = i.path.substring(i.path.lastIndexOf(".")); // finds the .txt at the end of the file name
+                outputPath = i.path.substring(0,i.path.lastIndexOf(".")); // finds the .txt at the end of the file name
                 outputFile = new File(outputPath + fileNum + ".txt"); // inserts the number in front of the .txt
                 outputFile.createNewFile();
 
@@ -95,17 +97,28 @@ public class Processing {
             String fileName = i.file.getName();
             if (fileName.endsWith(".txt")) { // if the file ends in .txt then it has to be handled appropriatley
                 newFileName = fileName.substring(0,fileName.lastIndexOf(".txt")) + Suffix + ".txt"; // creates the new file name
-                newFile = new File(i.file.getParentFile() + newFileName); // makes the file object needed to rename the old file with the new name
+                newFile = new File(i.file.getParentFile() +"\\"+ newFileName); // makes the file object needed to rename the old file with the new name
             } else { // this is if there is no .txt file at the end
                 newFileName = fileName + Suffix + ".txt";
-                newFile = new File(i.file.getParentFile() + newFileName); // makes the new file object since the one up there didn't run since this is the else
+                newFile = new File(i.file.getParentFile() +"\\"+ newFileName); // makes the new file object since the one up there didn't run since this is the else
             }
             
             if (!i.file.renameTo(newFile)) { // shouldn't run but it tries to rename the file and if it fails it will enter this if statement
                 System.out.println("Failed to rename " + i.file.getName()); // tells the console it failed
                 output.add(new LocalEntry(i.path)); // adds the old object back
             } else {
-                output.add(new LocalEntry(i.file.getParentFile() + newFileName)); // adds the renamed file
+                int lineNum = 0;
+                try (FileWriter writer = new FileWriter(newFile)) {     //scans everything into the new renamed file
+                    int linesWritten = 0;
+                    while (lineNum < i.contents.length) { // goes until the end of the end of the file
+                        writer.write(i.contents[lineNum] + "\n"); // writes it to the file
+                        lineNum++;
+                        linesWritten++;
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Processing.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                output.add(new LocalEntry(newFile.getPath())); // adds the renamed file
             }
         }
         return output.toArray(new Entries[0]);
